@@ -1,62 +1,30 @@
-# WEB-GUI base libraries
+# WebGUI
 
-This directory defines the reusable browser-library boundary used by Structure and intended for later reuse by AIGMos WEB-GUI.
+WebGUI is a standalone, concept-free, minimalist DOM library for structural rendering.
 
-## Public surface
+It provides DOM construction, controls, structural composition, mounting and instance-owned theme selection. It does not contain application concepts, application state management, S3D integration or host-specific adapters.
 
-Three import surfaces are available:
+```js
+import { WebGUI } from './WebGUI/webgui.js';
 
-- `sdom.js` — SDOM only.
-- `s3d.js` — S3D only.
-- `index.js` — combined SDOM + S3D surface.
-
-The two foundations are independent:
-
-- **SDOM** — minimal DOM construction/composition primitives.
-- **S3D** — scene, selection, playback, math, render storage, WebGL rendering, benchmark utilities and generic 3D objects.
-
-The libraries are application-neutral. They must not contain Structure, CW, AIGMos, workspace, Ruleset, Entity or other host-domain semantics.
-
-## Dependency rules
-
-```text
-SDOM  ↛ S3D
-S3D   ↛ SDOM
-SDOM  ↛ host application
-S3D   ↛ host application
-host application → SDOM / S3D
+const gui = new WebGUI({ theme: 'default' });
+document.body.append(gui.stack([
+  gui.field('Name', gui.input({ name: 'name' })),
+  gui.button('Save')
+]));
 ```
 
-Neither library registers browser globals. Applications import the public surface directly.
+Built-in themes are addressed by name and always remain in `themes/`:
 
-S3D internals use named ES-module exports only. `../3d/index.js` is the sole namespace assembly point and exposes an immutable convenience `S3D` object. Internal modules never mutate that namespace.
+```js
+new WebGUI({ theme: 'default' });
+```
 
-## No-legacy rule
+A consuming project may keep its own theme anywhere and pass only its path or URL:
 
-The library boundary has one implementation path only:
+```js
+new WebGUI({ theme: '/assets/themes/project.css' });
+new WebGUI({ theme: new URL('./project.css', import.meta.url) });
+```
 
-- no compatibility aliases
-- no browser-global registration
-- no classic-script loaders
-- no prototype patches
-- no monkey-patched function replacement
-- no fallback implementation beside the canonical implementation
-
-A host must adapt to the library API; the library is never changed to preserve an obsolete host API.
-
-## Styling
-
-`../ui.css` contains SDOM primitive layout only. `theme-default.css` provides replaceable default `--ui-*` visual tokens. A host may replace the theme without changing SDOM JavaScript or layout primitives.
-
-## Extraction contract
-
-A later standalone package can lift:
-
-- `webgui/index.js`
-- `webgui/sdom.js`
-- `webgui/s3d.js`
-- `webgui/theme-default.css`
-- `../ui.css`
-- the modules reachable from `../3d/index.js`
-
-without carrying Structure application code. Structure-specific adapters, projections, editors and canonical semantics remain outside this boundary.
+The root contains one JavaScript entry point, `webgui.js`. It assembles all internal dependencies. See `Contracts/` for the binding rules.
