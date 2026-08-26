@@ -2,7 +2,7 @@
 
 WebGUI is a standalone, concept-free, minimalist DOM library for structural rendering.
 
-It provides DOM construction, controls, structural composition, mounting and instance-owned theme selection. It does not contain application concepts, application state management, S3D integration or host-specific adapters.
+It provides DOM construction, controls, structural composition, mounting and instance-owned theme selection. It does not contain application concepts, application state management, integration with another framework or host-specific adapters.
 
 ```js
 import { WebGUI } from './WebGUI/webgui.js';
