@@ -14,7 +14,7 @@
   ],
   "mustNot": [
     "contain host-domain concepts",
-    "depend on S3D",
+    "depend on another framework",
     "contain application state management",
     "copy or mutate consumer-owned themes",
     "accept implicit unsafe HTML"
