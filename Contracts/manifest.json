@@ -1,10 +1,11 @@
 {
   "package": "webgui-contracts",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "files": [
     "00-framework-contract.json",
     "01-public-surface.json",
     "02-theme-contract.json",
+    "03-presentation-contract.json",
     "manifest.json"
   ],
   "status": "active"
