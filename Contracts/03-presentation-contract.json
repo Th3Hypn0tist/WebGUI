@@ -1,0 +1,67 @@
+{
+  "name": "WebGUI Presentation",
+  "version": "0.1.0",
+  "owner": "WebGUI",
+  "namespace": ".wg-*",
+  "purpose": "define stable domain-neutral presentation semantics for generic WebGUI primitives and structural composition without owning visual styling",
+  "publicClasses": {
+    ".wg-button": "generic button control",
+    ".wg-input": "generic single-line input control",
+    ".wg-select": "generic select control",
+    ".wg-field": "generic field composition boundary",
+    ".wg-label": "generic field or control label",
+    ".wg-panel": "generic bounded content panel",
+    ".wg-row": "generic horizontal composition container",
+    ".wg-stack": "generic vertical composition container",
+    ".wg-table": "generic tabular presentation boundary",
+    ".wg-badge": "generic compact badge presentation",
+    ".wg-status": "generic semantic status presentation"
+  },
+  "stateEncoding": {
+    "preferred": [
+      "data-state",
+      "data-status",
+      "data-variant",
+      "aria-current",
+      "native disabled state",
+      "data-disabled"
+    ],
+    "semantics": {
+      "data-state": "generic component or presentation state carrier when the owning primitive defines such states",
+      "data-status": "semantic status carrier",
+      "data-variant": "presentation variant carrier when a dedicated structural class is unnecessary",
+      "aria-current": "standards-based current-item/current-page state where applicable",
+      "native disabled state": "authoritative disabled semantics for native controls",
+      "data-disabled": "presentation carrier for disabled semantics on non-native composite structures only"
+    },
+    "rules": [
+      "native controls use their native disabled semantics instead of CSS-only disabled state",
+      "data-disabled must not replace the native disabled attribute on native controls",
+      "state attributes represent generic UI semantics only and must not encode host-domain business meaning",
+      "this contract does not make visual state an application or authorization authority"
+    ]
+  },
+  "ownership": {
+    "WebGUI": [
+      "semantic meaning of .wg-* classes",
+      "generic primitive and structural composition semantics represented by .wg-*",
+      "generic state carrier semantics listed by this contract"
+    ],
+    "Style": [
+      "visual implementation of .wg-* semantics",
+      "layout, spacing, color, typography and other visual properties",
+      "theme-dependent token values"
+    ]
+  },
+  "rules": [
+    ".wg-* remains concept-free and domain-neutral",
+    "WebGUI presentation semantics must not depend on WebEngine or any host application",
+    "Style may consume .wg-* and semantic state attributes but must not redefine their meaning",
+    "WebGUI must not encode visual appearance into .wg-* class names or state values",
+    "host applications may compose .wg-* primitives but must not redefine existing .wg-* semantics",
+    "domain-specific classes may coexist outside WebGUI but shared Style must not depend on domain meaning",
+    "presentation visibility or state is never authorization authority",
+    "generic WebGUI runtime helpers that are not listed here are not automatically part of the shared .wg-* presentation contract"
+  ],
+  "implementationNote": "Current WebGUI runtime still emits data-ui markers for several helpers. Runtime emission of the canonical .wg-* classes is an implementation alignment task and is intentionally not changed by this contract-only step."
+}
