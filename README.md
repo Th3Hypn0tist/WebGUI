@@ -28,3 +28,47 @@ new WebGUI({ theme: new URL('./project.css', import.meta.url) });
 ```
 
 The root contains one JavaScript entry point, `webgui.js`. It assembles all internal dependencies. See `Contracts/` for the binding rules.
+
+
+## Presentation contract
+
+WebGUI owns the semantic meaning of the shared generic UI namespace:
+
+```text
+.wg-*
+```
+
+Current public classes:
+
+```text
+.wg-button
+.wg-input
+.wg-select
+.wg-field
+.wg-label
+.wg-panel
+.wg-row
+.wg-stack
+.wg-table
+.wg-badge
+.wg-status
+```
+
+These names describe generic, domain-neutral UI semantics. They do not encode visual appearance or host-application meaning.
+
+Preferred state carriers are:
+
+```text
+data-state
+data-status
+data-variant
+aria-current
+native disabled state
+data-disabled
+```
+
+Native controls use native disabled semantics. `data-disabled` is reserved for non-native composite structures and must not replace the native `disabled` attribute.
+
+WebGUI owns the semantics. Style owns the visual implementation. WebEngine keeps its separate `.we-*` application/composition namespace.
+
+The current runtime still emits `data-ui` markers for several helpers; aligning runtime emission with the canonical `.wg-*` contract is a later implementation task, not part of this contract-only step.
