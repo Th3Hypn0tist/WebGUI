@@ -1,6 +1,6 @@
 {
   "name": "WebGUI",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "kind": "standalone structural DOM framework",
   "runtime": "browser",
   "principles": [
@@ -10,13 +10,16 @@
     "no host application dependencies",
     "no browser globals are registered",
     "one public JavaScript entry point exists at the repository root",
-    "themes are selected by instance configuration"
+    "themes are selected by instance configuration",
+    "WebGUI owns generic presentation semantics under the .wg-* namespace while Style owns visual implementation"
   ],
   "mustNot": [
     "contain host-domain concepts",
-    "depend on another framework",
+    "depend on WebEngine or another host framework",
     "contain application state management",
     "copy or mutate consumer-owned themes",
-    "accept implicit unsafe HTML"
+    "accept implicit unsafe HTML",
+    "encode visual appearance into .wg-* semantic class names",
+    "use .wg-* for host-domain business semantics"
   ]
 }
