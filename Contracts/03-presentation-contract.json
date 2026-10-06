@@ -38,8 +38,20 @@
       "native controls use their native disabled semantics instead of CSS-only disabled state",
       "data-disabled must not replace the native disabled attribute on native controls",
       "state attributes represent generic UI semantics only and must not encode host-domain business meaning",
-      "this contract does not make visual state an application or authorization authority"
-    ]
+      "this contract does not make visual state an application or authorization authority",
+      "shared Style may visually implement only state values explicitly defined by the owning WebGUI contract"
+    ],
+    "valueVocabularies": {
+      "data-variant": {
+        "primary": "generic emphasized/primary control presentation"
+      },
+      "data-status": {
+        "success": "generic successful/positive status",
+        "warning": "generic warning status",
+        "error": "generic error/failure status",
+        "info": "generic informational status"
+      }
+    }
   },
   "ownership": {
     "WebGUI": [
