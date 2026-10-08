@@ -1,11 +1,58 @@
 # WebGUI
 
-WebGUI is a standalone, concept-free, minimalist DOM library for structural rendering.
+Standalone, concept-free DOM/UI primitive framework.
 
-It provides DOM construction, controls, structural composition, mounting and instance-owned theme selection. It does not contain application concepts, application state management, integration with another framework or host-specific adapters.
+## Canonical responsibility split
+
+```text
+IAM        = who
+AccessCore = authority / may
+DWH        = where / what relates to what
+WebEngine  = execute the declared web structure
+WebGUI     = generic UI primitives
+S3D        = spatial / 3D primitives
+```
+
+WebGUI owns only the generic UI primitive layer.
+
+## Role
+
+```text
+DWH declarations
+      ↓
+ WebEngine
+      ↓
+   WebGUI
+      ↓
+ DOM / UI
+```
+
+WebGUI does not know why a control exists, who is using it, whether the user is authorized, where canonical data lives, or which domain behavior a control triggers.
+
+It provides reusable primitives for structural browser UI.
+
+## Dependency boundary
+
+```text
+WebEngine -> WebGUI
+WebGUI -/-> WebEngine
+WebGUI -/-> DWH
+WebGUI -/-> IAM
+WebGUI -/-> AccessCore
+```
+
+WebGUI must remain independently usable outside AIGM.fi and outside WebEngine.
+
+## Public entry point
+
+```text
+webgui.js
+```
+
+Example:
 
 ```js
-import { WebGUI } from './WebGUI/webgui.js';
+import { WebGUI } from './webgui.js';
 
 const gui = new WebGUI({ theme: 'default' });
 document.body.append(gui.stack([
@@ -14,29 +61,9 @@ document.body.append(gui.stack([
 ]));
 ```
 
-Built-in themes are addressed by name and always remain in `themes/`:
+## Generic presentation semantics
 
-```js
-new WebGUI({ theme: 'default' });
-```
-
-A consuming project may keep its own theme anywhere and pass only its path or URL:
-
-```js
-new WebGUI({ theme: '/assets/themes/project.css' });
-new WebGUI({ theme: new URL('./project.css', import.meta.url) });
-```
-
-The root contains one JavaScript entry point, `webgui.js`. It assembles all internal dependencies. See `Contracts/` for the binding rules.
-
-
-## Presentation contract
-
-WebGUI owns the semantic meaning of the shared generic UI namespace:
-
-```text
-.wg-*
-```
+WebGUI owns the `.wg-*` namespace.
 
 Current public classes:
 
@@ -54,9 +81,9 @@ Current public classes:
 .wg-status
 ```
 
-These names describe generic, domain-neutral UI semantics. They do not encode visual appearance or host-application meaning.
+These names describe generic UI semantics, never application/domain meaning or visual appearance.
 
-Preferred state carriers are:
+Preferred state carriers:
 
 ```text
 data-state
@@ -67,8 +94,23 @@ native disabled state
 data-disabled
 ```
 
-Native controls use native disabled semantics. `data-disabled` is reserved for non-native composite structures and must not replace the native `disabled` attribute.
+Native controls use native disabled semantics. `data-disabled` is reserved for non-native composite structures.
 
-WebGUI owns the semantics. Style owns the visual implementation. WebEngine keeps its separate `.we-*` application/composition namespace.
+## Styling boundary
 
-The current runtime still emits `data-ui` markers for several helpers; aligning runtime emission with the canonical `.wg-*` contract is a later implementation task, not part of this contract-only step.
+WebGUI owns generic UI semantics. Style/theme layers own visual implementation.
+
+Built-in themes may be selected by instance configuration. A consumer may also provide its own theme path/URL.
+
+## Architectural invariants
+
+1. WebGUI is generic and host-independent.
+2. WebGUI does not consume DWH symbols or canonical relations.
+3. WebGUI does not authenticate or authorize.
+4. WebGUI does not own WebEngine page/composition state.
+5. WebGUI does not own S3D spatial semantics.
+6. `.wg-*` contains only generic UI semantics.
+7. Visual appearance is not encoded into semantic primitive names.
+8. Consumer/domain behavior remains outside WebGUI.
+
+See `Contracts/` for machine-readable framework and presentation boundaries.
