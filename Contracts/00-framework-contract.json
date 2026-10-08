@@ -1,25 +1,40 @@
 {
   "name": "WebGUI",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "kind": "standalone structural DOM framework",
   "runtime": "browser",
   "principles": [
-    "concept-free",
+    "concept-free generic DOM/UI primitives",
     "minimal DOM construction and structural rendering",
     "all stateful functionality is instantiable",
     "no host application dependencies",
+    "no dependency on DWH, IAM, AccessCore or WebEngine semantics",
     "no browser globals are registered",
     "one public JavaScript entry point exists at the repository root",
     "themes are selected by instance configuration",
-    "WebGUI owns generic presentation semantics under the .wg-* namespace while Style owns visual implementation"
+    "WebGUI owns generic presentation semantics under .wg-* while Style owns visual implementation"
   ],
   "mustNot": [
     "contain host-domain concepts",
     "depend on WebEngine or another host framework",
+    "consume DWH symbols or relations",
+    "interpret IAM identity",
+    "make AccessCore decisions",
     "contain application state management",
+    "own page composition or projector lifecycle",
+    "own spatial/3D semantics",
     "copy or mutate consumer-owned themes",
     "accept implicit unsafe HTML",
     "encode visual appearance into .wg-* semantic class names",
     "use .wg-* for host-domain business semantics"
-  ]
+  ],
+  "responsibility": "generic UI primitives",
+  "systemSplit": {
+    "IAM": "who",
+    "AccessCore": "authority / may",
+    "DWH": "where / what relates to what",
+    "WebEngine": "execute declared web structure",
+    "WebGUI": "generic UI primitives",
+    "S3D": "spatial / 3D primitives"
+  }
 }
